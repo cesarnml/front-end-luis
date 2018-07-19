@@ -6,12 +6,27 @@ import SideNav from './SideNav'
 import NoteDetails from '../containers/NoteDetails'
 import NoMatch from './NoMatch'
 class App extends Component {
-  render () {
+  constructor(props) {
+    super(props)
+    this.state = {
+      search: ''
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({ search: e.target.value })
+  }
+
+  setSearch = (search) => {
+    this.setState({ search })
+  }
+
+  render() {
     return (
       <div className='App'>
-        <SideNav />
+        <SideNav setSearch={this.setSearch} />
         <Switch>
-          <Route exact path='/' component={NoteList} />
+          <Route exact path='/' render={(props) => <NoteList {...props} search={this.state.search} handleChange={this.handleChange} setSearch={this.setSearch} />} />
           <Route path='/notes/new' component={NewNote} />
           <Route path='/notes/:id' component={NoteDetails} />
           <Route component={NoMatch} />

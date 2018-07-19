@@ -1,17 +1,20 @@
 import axios from 'axios'
 
 const url = `https://killer-notes.herokuapp.com/note`
-export const GET_NOTES = 'GET_NOTES'
-export const FETCHING = 'FETCHING'
-export const ERROR = 'ERROR'
-export const GET_NOTE = 'GET_NOTE'
-export const GET_NEW_NOTES = 'GET_NEW_NOTES'
-export const POSTING = 'POSTING'
-export const DELETING = 'DELETING'
-export const UPDATING = 'UPDATING'
-export const GETTING_NOTE = 'GETTING_NOTE'
-export const GET_TAGS = 'GET_TAGS'
-export const UPDATED_TAGS = 'UPDATED_TAGS'
+
+export const FETCH_NOTES = 'FETCH_NOTES'
+export const FETCHING_NOTES = 'FETCHING_NOTES'
+export const ERROR = 'ERROR_FETCHING_NOTES'
+
+export const FETCH_NOTE = 'FETCH_NOTE'
+export const FETCHING_NOTE = 'FETCHING_NOTE'
+
+export const POSTING_NOTE = 'POSTING_NOTE'
+export const DELETING_NOTE = 'DELETING_NOTE'
+export const UPDATING_NOTE = 'UPDATING_NOTE'
+
+export const FETCH_TAGS = 'FETCH_TAGS'
+export const UPDATE_TAGS = 'UPDATED_TAGS'
 
 const flatten = function (arr, result = []) {
   for (let i = 0, length = arr.length; i < length; i++) {
@@ -28,30 +31,27 @@ const flatten = function (arr, result = []) {
 export const fetchNotes = () => {
   const request = axios.get(`${url}/get/all`)
   return (dispatch) => {
-    dispatch({ type: FETCHING, payload: true })
+    dispatch({ type: FETCHING_NOTES, payload: true })
     request
       .then((res) => {
         const arr = res.data.map((note) => note.tags)
-        let tags = [ ...new Set(flatten(arr)) ].filter((tag) => tag.length >= 2)
-        console.log(tags)
-        dispatch({ type: GET_TAGS, payload: tags })
-        dispatch({ type: GET_NOTES, payload: res.data })
-        dispatch({ type: FETCHING, payload: false })
+        let tags = [...new Set(flatten(arr))].filter((tag) => tag.length >= 2)
+        dispatch({ type: FETCH_TAGS, payload: tags })
+        dispatch({ type: FETCH_NOTES, payload: res.data })
+        dispatch({ type: FETCHING_NOTES, payload: false })
       })
       .catch((error) => dispatch({ type: ERROR, payload: error }))
   }
 }
 
-export const getNote = (id) => {
+export const fetchNote = (id) => {
   const request = axios.get(`${url}/get/${id}`)
   return (dispatch) => {
-    dispatch({ type: GETTING_NOTE, payload: true })
+    dispatch({ type: FETCHING_NOTE, payload: true })
     request
       .then((res) => {
-        console.log(res.data)
-        dispatch({ type: GETTING_NOTE, payload: false })
-        dispatch({ type: GET_NOTE, payload: res.data })
-        dispatch({})
+        dispatch({ type: FETCHING_NOTE, payload: false })
+        dispatch({ type: FETCH_NOTE, payload: res.data })
       })
       .catch((error) => dispatch({ type: ERROR, payload: error }))
   }
@@ -60,16 +60,16 @@ export const getNote = (id) => {
 export const deleteNote = (id) => {
   const request = axios.delete(`${url}/delete/${id}`)
   return (dispatch) => {
-    dispatch({ type: DELETING, payload: true })
+    dispatch({ type: DELETING_NOTE, payload: true })
     request
       .then((res) => {
-        dispatch({ type: DELETING, payload: false })
         dispatch({
-          type: GET_NOTES,
+          type: FETCH_NOTES,
           payload: axios.get(`${url}/get/all`).then((res) => {
-            dispatch({ type: GET_NOTES, payload: res.data })
+            dispatch({ type: FETCH_NOTES, payload: res.data })
           })
         })
+        dispatch({ type: DELETING_NOTE, payload: false })
       })
       .catch((error) => dispatch({ type: ERROR, payload: error }))
   }
@@ -78,17 +78,16 @@ export const deleteNote = (id) => {
 export const postNote = (note) => {
   const request = axios.post(`${url}/create`, note)
   return (dispatch) => {
-    dispatch({ type: POSTING, payload: true })
+    dispatch({ type: POSTING_NOTE, payload: true })
     request
       .then((res) => {
         dispatch({
-          type: GET_NOTES,
+          type: FETCH_NOTES,
           payload: axios.get(`${url}/get/all`).then((res) => {
             const arr = res.data.map((note) => note.tags)
-            console.log(flatten(arr))
-            dispatch({ type: GET_TAGS, payload: flatten(arr) })
-            dispatch({ type: GET_NOTES, payload: res.data })
-            dispatch({ type: POSTING, payload: false })
+            dispatch({ type: FETCH_TAGS, payload: flatten(arr) })
+            dispatch({ type: FETCH_NOTES, payload: res.data })
+            dispatch({ type: POSTING_NOTE, payload: false })
           })
         })
       })
@@ -100,16 +99,16 @@ export const editNote = (id, note) => {
   // console.log('IN EDITNOTE', note)
   const request = axios.put(`${url}/edit/${id}`, note)
   return (dispatch) => {
-    dispatch({ type: UPDATING, payload: true })
+    dispatch({ type: UPDATING_NOTE, payload: true })
     request
       .then((res) => {
-        dispatch({ type: UPDATING, payload: false })
+        dispatch({ type: UPDATING_NOTE, payload: false })
         dispatch({
-          type: GET_NOTE,
+          type: FETCH_NOTE,
           payload: axios.get(`${url}/get/${id}`).then((res) => {
             const arr = res.data.tags
-            dispatch({ type: UPDATED_TAGS, payload: arr })
-            dispatch({ type: GET_NOTE, payload: res.data })
+            dispatch({ type: UPDATE_TAGS, payload: arr })
+            dispatch({ type: FETCH_NOTE, payload: res.data })
           })
         })
       })

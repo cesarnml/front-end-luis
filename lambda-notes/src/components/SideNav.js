@@ -20,9 +20,9 @@ class SideNav extends Component {
         <div className='tag-list'>
           {tags.map((tag, index) => {
             return (
-              <h2 key={tag + index}>
-                <i className='fas fa-tag' />
-                {`${tag}`}
+              <h2 key={tag + index} onClick={() => { this.props.setSearch(tag) }}>
+                <i className='fas fa-tag fa-xs' style={{ marginRight: '10px' }} />
+                {tag}
               </h2>
             )
           })}

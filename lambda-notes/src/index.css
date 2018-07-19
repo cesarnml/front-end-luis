@@ -20,23 +20,20 @@ label {
   background-color: white;
   width: 280px;
   height: 270px;
-  margin-bottom: 2%;
+  margin: 0 5px 20px;
   display: inline-flex;
   flex-direction: column;
-  padding: 1%;
+  padding: 10px;
   overflow: hidden;
   box-shadow: 10px 5px 5px #e5e4e6;
 }
 
 .myLink p {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .cardBody {
-  -webkit-line-clamp: 4;
+  overflow-wrap: break-word;
 }
 .myLink:hover {
   color: black;
@@ -50,7 +47,8 @@ label {
 }
 
 .card-tag {
-  margin: 5px;
+  margin: auto 5px;
+
 }
 .lambda-logo {
   text-decoration: none;
@@ -74,9 +72,9 @@ label {
   flex-direction: column;
 }
 
-.noteList-header {
+/* .noteList-header {
   margin: 2% 10% 0 2.5%;
-}
+} */
 
 .cardTitle {
   border-bottom: 1px solid black;
@@ -86,7 +84,7 @@ label {
   display: flex;
   background-color: #f2f1f2;
   width: 100%;
-  min-height: 93%;
+  min-height: 100vh;
 }
 .noteList {
   background-color: #f2f1f2;
@@ -111,8 +109,8 @@ label {
 
 .sidenav-button {
   border: 1px solid black;
-  padding: 6% 0%;
-  margin-top: 11%;
+  padding: 20px 0%;
+  margin-top: 20px;
   text-align: center;
   background-color: #55b9bd;
   color: white;
@@ -147,7 +145,7 @@ label {
   min-width: 250px;
   display: flex;
   flex-flow: column;
-  padding: 1%;
+  padding: 15px;
 }
 
 .title-input {
@@ -220,24 +218,31 @@ label {
   margin-bottom: 3%;
 }
 .search-input {
-  width: 550px;
-  height: 44px;
-  margin: auto;
+  width: 330px;
+  height: 40px;
+  margin: auto 0;
   border-radius: 30px;
   text-align: center;
 }
+.btn-clear {
+  height: 40px;
+  margin: auto 10px;
+  background-color: #55b9bd !important;
+}
 .notelist-header-div {
-  Display: flex;
-  height: 90px;
+  display: flex;
+  height: 80px;
 }
 .note-header {
   font-size: 2rem;
-
   position: absolute;
   left: 1;
 }
 .padding-container {
-  padding: 1%;
+  padding: 10px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
 }
 @media (max-width: 1147px) {
   .note-header {

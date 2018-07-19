@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+
 import { deleteNote, editNote } from '../actions'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 class NoteDetails extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -15,13 +16,6 @@ class NoteDetails extends Component {
       textBody: '',
       tags: ''
     }
-  }
-
-  componentDidMount () {
-    this.setState({
-      title: this.props.note.title,
-      textBody: this.props.note.textBody
-    })
   }
 
   toggle = () => {
@@ -59,9 +53,8 @@ class NoteDetails extends Component {
     this.setState({ isEditing: true })
   }
 
-  render () {
+  render() {
     const note = this.props.note
-    console.log(note)
     return (
       <div className='noteDetails-container'>
         <div className='noteDetails'>
@@ -90,7 +83,7 @@ class NoteDetails extends Component {
                       className='edit-title'
                       type='text'
                       name='title'
-                      value={this.state.title}
+                      value={this.state.title || note.title}
                       onChange={this.handleChange}
                     />
                     <label>
@@ -108,7 +101,7 @@ class NoteDetails extends Component {
                       className='edit-textBody'
                       type='text'
                       name='textBody'
-                      value={this.state.textBody}
+                      value={this.state.textBody || note.textBody}
                       onChange={this.handleChange}
                     />
                   </form>
@@ -160,7 +153,7 @@ class NoteDetails extends Component {
           </div>
 
           <h1 className='title-header'>{note.title}</h1>
-          <p className='noteBody'>{note.textBody}</p>
+          <div className='noteBody'>{note.textBody}</div>
           <p>{note.tags}</p>
         </div>
       </div>
