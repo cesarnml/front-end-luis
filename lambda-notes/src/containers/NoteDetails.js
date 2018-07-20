@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { deleteNote, editNote } from '../actions'
+import { fetchNote, deleteNote, editNote } from '../actions'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 class NoteDetails extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
+
+    this.props.fetchNote(this.props.match.params.id)
 
     this.state = {
       modal: false,
       editModal: false,
       isEditing: false,
-      title: '',
-      textBody: '',
-      tags: ''
+      title: this.props.title,
+      textBody: this.props.textBody,
+      tags: this.props.tags
     }
   }
 
@@ -53,7 +55,7 @@ class NoteDetails extends Component {
     this.setState({ isEditing: true })
   }
 
-  render() {
+  render () {
     const note = this.props.note
     return (
       <div className='noteDetails-container'>
@@ -165,4 +167,6 @@ const mapStateToProps = (state) => {
     note: state.note
   }
 }
-export default connect(mapStateToProps, { deleteNote, editNote })(NoteDetails)
+export default connect(mapStateToProps, { fetchNote, deleteNote, editNote })(
+  NoteDetails
+)

@@ -27,7 +27,6 @@ const flatten = function (arr, result = []) {
   }
   return result
 }
-
 export const fetchNotes = () => {
   const request = axios.get(`${url}/get/all`)
   return (dispatch) => {
@@ -35,7 +34,7 @@ export const fetchNotes = () => {
     request
       .then((res) => {
         const arr = res.data.map((note) => note.tags)
-        let tags = [...new Set(flatten(arr))].filter((tag) => tag.length >= 2)
+        let tags = [ ...new Set(flatten(arr)) ].filter((tag) => tag.length >= 2)
         dispatch({ type: FETCH_TAGS, payload: tags })
         dispatch({ type: FETCH_NOTES, payload: res.data })
         dispatch({ type: FETCHING_NOTES, payload: false })
